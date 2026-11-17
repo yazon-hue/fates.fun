@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fates: Parlays on Elysium — Pitch Deck</title>
+<meta name="description" content="Fates: parlays on Elysium. Stack the legs. Spin your fate. Holders own the house." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+html, body { margin:0; padding:0; height:100%; overflow:hidden; background:#101511; }
+#viewport { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; }
+#stage { position:relative; width:1920px; height:1080px; transform-origin:center center; flex:none; }
+#stage > section { position:absolute; inset:0; width:1920px; height:1080px; margin:0; opacity:0; visibility:hidden; transition:opacity .45s ease, visibility .45s; overflow:hidden; }
+#stage > section.active { opacity:1; visibility:visible; }
+#stage > section:not(.active) .rise { animation:none; }
+/* arrow shapes drawn with CSS */
+.shape-arrow-right { clip-path: polygon(0 30%, 60% 30%, 60% 0, 100% 50%, 60% 100%, 60% 70%, 0 70%); }
+.shape-arrow-left { clip-path: polygon(100% 30%, 40% 30%, 40% 0, 0 50%, 40% 100%, 40% 70%, 100% 70%); }
+.shape-arrow-down { clip-path: polygon(30% 0, 70% 0, 70% 60%, 100% 60%, 50% 100%, 0 60%, 30% 60%); }
+.shape-arrow-up { clip-path: polygon(30% 100%, 70% 100%, 70% 40%, 100% 40%, 50% 0, 0 40%, 30% 40%); }
+table.data { border-collapse:collapse; }
+table.data th, table.data td { padding:14px 18px; border-bottom:1px solid #2F3A30; vertical-align:top; }
+/* nav */
+.nav { position:fixed; right:24px; bottom:18px; display:flex; align-items:center; gap:12px; z-index:10; font-family:'JetBrains Mono', monospace; font-size:13px; color:#95A092; }
+.nav button { width:38px; height:38px; border-radius:50%; border:1px solid #2F3A30; background:rgba(22,28,23,.8); color:#EEF1EA; cursor:pointer; font-size:16px; }
+.nav button:hover { border-color:#86C065; }
+.progress { position:fixed; left:0; right:0; bottom:0; height:4px; background:#1C231D; z-index:10; }
+.progress .f { height:100%; background:#86C065; width:0; transition:width .4s ease; }
+body { font-family: 'Inter', Arial, sans-serif; }
+
+section { padding: 128px; background: #161C17; color: #C3CBBF; box-sizing: border-box; display: flex; flex-direction: column; gap: 44px; font-family: 'Inter', Arial, sans-serif; }
+section.alt { background: #1C231D; }
+section.has-foot { padding: 128px 128px 160px; }
+section.accent { background: #86C065; color: #142014; }
+
+h1, h2, h3 { font-family: 'Space Grotesk', Arial, sans-serif; color: #EEF1EA; margin: 0; }
+h1 { font-size: 120px; font-weight: 700; line-height: 1.02; letter-spacing: -2px; }
+h2 { font-size: 64px; font-weight: 700; line-height: 1.08; letter-spacing: -1px; }
+h3 { font-size: 40px; font-weight: 600; line-height: 1.15; }
+section.accent h1, section.accent h2, section.accent h3 { color: #101810; }
+
+.eyebrow { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 24px; color: #86C065; letter-spacing: 2px; font-weight: 700; margin: 0; }
+section.accent .eyebrow { color: #101810; }
+.lede { font-size: 32px; line-height: 1.45; color: #C3CBBF; margin: 0; max-width: 1300px; }
+section.accent .lede { color: #1B2A1A; }
+.hl { color: #86C065; }
+.blue { color: #8DB2F7; }
+.gold { color: #E8C468; }
+.bad { color: #E8896A; }
+.head { display: flex; flex-direction: column; gap: 18px; }
+.mono { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 24px; color: #95A092; margin: 0; }
+
+.source { position: absolute; left: 128px; bottom: 64px; width: 1664px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 24px; color: #95A092; margin: 0; }
+
+.stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; }
+.stats.four { grid-template-columns: 1fr 1fr 1fr 1fr; gap: 32px; }
+.stat { border-top: 4px solid #86C065; padding-top: 24px; display: flex; flex-direction: column; gap: 14px; }
+.stat.warn { border-top-color: #E8896A; }
+.stat .num { font-family: 'Space Grotesk', Arial, sans-serif; font-size: 96px; font-weight: 700; line-height: 1; color: #EEF1EA; margin: 0; }
+.stat .label { font-size: 28px; line-height: 1.35; color: #C3CBBF; margin: 0; }
+
+.cards { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 24px; }
+.cards.three { grid-template-columns: 1fr 1fr 1fr; }
+.cards.two { grid-template-columns: 1fr 1fr; gap: 32px; }
+.card { background: #1C231D; border: 2px solid #2F3A30; border-radius: 16px; padding: 36px; display: flex; flex-direction: column; gap: 14px; }
+section.alt .card { background: #161C17; }
+.card .k { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 24px; color: #86C065; font-weight: 700; margin: 0; }
+.card .d { font-size: 28px; line-height: 1.4; color: #C3CBBF; margin: 0; }
+.card .big { font-family: 'Space Grotesk', Arial, sans-serif; font-size: 64px; font-weight: 700; color: #EEF1EA; line-height: 1; margin: 0; }
+.card.featured { border-color: #8DB2F7; }
+.card.compact { padding: 28px; gap: 10px; }
+.card.compact .d { font-size: 24px; line-height: 1.4; }
+
+.flow { display: flex; align-items: center; gap: 20px; }
+.flow .card { flex: 1; }
+.arrow { width: 64px; height: 32px; background: #8DB2F7; }
+
+.wheel { display: grid; grid-template-columns: 1fr 140px 1fr; grid-template-rows: auto 110px auto; align-items: center; justify-items: center; flex: 1; }
+.wheel .node { background: #161C17; border: 2px solid #86C065; border-radius: 20px; padding: 28px 36px; width: 640px; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px; }
+.wheel .node .k { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 24px; color: #86C065; font-weight: 700; margin: 0; }
+.wheel .node .t { font-family: 'Space Grotesk', Arial, sans-serif; font-size: 34px; font-weight: 600; color: #EEF1EA; margin: 0; line-height: 1.2; }
+.arr-h { width: 96px; height: 44px; background: #8DB2F7; }
+.arr-v { width: 44px; height: 96px; background: #8DB2F7; }
+.wheel .mid { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 24px; color: #95A092; margin: 0; text-align: center; }
+
+.ticket { background: #1C231D; border: 2px dashed #86C065; border-radius: 20px; padding: 40px; display: flex; flex-direction: column; gap: 18px; }
+.leg { display: flex; justify-content: space-between; align-items: center; border-top: 2px solid #2F3A30; padding-top: 18px; gap: 24px; }
+.leg .n { font-size: 30px; color: #EEF1EA; margin: 0; }
+.leg .v { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 28px; color: #86C065; font-weight: 700; margin: 0; }
+
+table.data { width: 100%; font-size: 28px; color: #C3CBBF; font-family: 'Inter', Arial, sans-serif; }
+table.data tr.headrow { background: #263027; }
+table.data th { color: #EEF1EA; font-weight: 600; text-align: left; }
+
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+.rise { animation: rise 600ms ease-out both; animation-delay: calc(var(--i, 0) * 120ms); }
+
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+<section data-slide id="cover" data-transition="fade" style="justify-content:space-between">
+<p class="eyebrow rise" style="--i:0">PARLAYS ON ELYSIUM · $FATES</p>
+<div class="head">
+<h1 class="rise" style="--i:1">Fates</h1>
+<h3 class="rise" style="--i:2; color:#C3CBBF; font-weight:400">Stack the legs. Spin your fate. Holders own the house.</h3>
+</div>
+<p class="mono rise" style="--i:3">Pick 2–5 coins · Set targets · All hit = big payout · House profit paid to stakers</p>
+
+</section>
+<section data-slide id="opportunity" class="alt has-foot">
+<div class="head">
+<p class="eyebrow">THE OPPORTUNITY</p>
+<h2>Elysium is eight days old, and nobody has built parlays on it.</h2>
+</div>
+<div class="stats">
+<div class="stat rise" style="--i:0"><p class="num">9 Nov</p><p class="label">Hyperliquid’s first L2 went live, with Pump.fun, fomo and GMGN on day one</p></div>
+<div class="stat rise" style="--i:1"><p class="num">~10M</p><p class="label">transactions in its first few hours</p></div>
+<div class="stat rise" style="--i:2"><p class="num">0</p><p class="label">parlay apps. Over half of day-one projects were launchpads or meme tools</p></div>
+</div>
+<p class="lede">The chain is full of coins to bet on and has no way to bet on them together.</p>
+<p class="source">Sources: Bankless, KuCoin, AirdropAlert (Nov 2026); Elysium ecosystem list (12 of 93 projects visible)</p>
+
+</section>
+<section data-slide id="demand" class="has-foot">
+<div class="head">
+<p class="eyebrow">PROVEN DEMAND</p>
+<h2>Parlays are the most profitable bet in gambling.</h2>
+</div>
+<div class="stats four">
+<div class="stat rise" style="--i:0"><p class="num">$800M</p><p class="label">wagered on Kalshi parlays in four months (Jan–Apr 2026)</p></div>
+<div class="stat rise" style="--i:1"><p class="num">15%</p><p class="label">of that kept by the other side: $117M lost by bettors</p></div>
+<div class="stat rise" style="--i:2"><p class="num">21–31%</p><p class="label">house hold on parlays at regulated sportsbooks</p></div>
+<div class="stat rise" style="--i:3"><p class="num">$173M</p><p class="label">Robinhood’s Q3 prediction-market revenue, now bigger than crypto</p></div>
+</div>
+<p class="source">Sources: Sports Illustrated (Kalshi data via Dune), DeucesCracked (state data), StockTitan (Robinhood Q3 2026)</p>
+
+</section>
+<section data-slide id="product" class="alt">
+<div class="head">
+<p class="eyebrow">THE PRODUCT</p>
+<h2>One ticket, several coins, one big multiple.</h2>
+</div>
+<div class="flow">
+<div class="card rise" style="--i:0"><p class="k">1 · PICK</p><h3>2–5 legs</h3><p class="d">Any liquid Elysium coin, later HIP-3 stocks and majors.</p></div>
+<div class="arrow shape-arrow-right" aria-hidden="true"></div>
+<div class="card rise" style="--i:1"><p class="k">2 · TARGET</p><h3>Up or down, by when</h3><p class="d">e.g. “above $10M market cap within 2 hours”.</p></div>
+<div class="arrow shape-arrow-right" aria-hidden="true"></div>
+<div class="card rise" style="--i:2"><p class="k">3 · STAKE</p><h3>HYPE or USDC</h3><p class="d">Odds stack with every leg added.</p></div>
+<div class="arrow shape-arrow-right" aria-hidden="true"></div>
+<div class="card rise" style="--i:3"><p class="k">4 · SETTLE</p><h3>All hit = win</h3><p class="d">One miss loses the ticket. Paid out automatically.</p></div>
+</div>
+<p class="lede">Targets settle on a multi-minute average price, so one wick can’t decide a ticket.</p>
+
+</section>
+<section data-slide id="ticket">
+<div class="split" style="flex:1">
+<div class="head">
+<p class="eyebrow">AN EXAMPLE TICKET</p>
+<h2>Small stake, big upside, made to be screenshotted.</h2>
+<p class="lede">Three legs, two hours, 10 HYPE in. If every leg hits, it pays about 9x.</p>
+<p class="mono">Illustrative coins and odds</p>
+</div>
+<div class="ticket rise" style="--i:0">
+<div style="display:flex; justify-content:space-between; align-items:center"><p class="mono" style="color:#EEF1EA">FATES · 3 LEGS · 2H</p><p class="mono gold">≈9x</p></div>
+<div class="leg"><p class="n">$MONTRA above $10M</p><p class="v">2.4x</p></div>
+<div class="leg"><p class="n">$KNTQ up 5%</p><p class="v">2.1x</p></div>
+<div class="leg"><p class="n">HYPE above $X</p><p class="v">1.8x</p></div>
+<div class="leg"><p class="n">Stake</p><p class="v">10 HYPE</p></div>
+<div class="leg"><p class="n">Pays if all hit</p><p class="v gold">≈90 HYPE</p></div>
+</div>
+</div>
+
+</section>
+<section data-slide id="speculation" class="alt">
+<div class="head">
+<p class="eyebrow">HOW IT CREATES SPECULATION</p>
+<h2>Every runner on Elysium becomes something new to bet on.</h2>
+</div>
+<div class="cards three">
+<div class="card compact rise" style="--i:0"><p class="k">NEW LEGS DAILY</p><h3>Meta feeds the app</h3><p class="d">Every coin that trends becomes a leg. More launches, more combinations to bet on.</p></div>
+<div class="card compact rise" style="--i:1"><p class="k">BIG MULTIPLES</p><h3>Small stake, big win</h3><p class="d">A 5-leg ticket can pay 20–40x, pulling in people who’d never trade with leverage.</p></div>
+<div class="card compact rise" style="--i:2"><p class="k">SHAREABLE WINS</p><h3>Wins go viral</h3><p class="d">“Hit a 5-leg for 32x” is a screenshot people post. Every win is free marketing.</p></div>
+<div class="card compact rise" style="--i:3"><p class="k">COMMUNITY RALLIES</p><h3>Holders shill legs</h3><p class="d">A ticket on a coin means you want it to pump, so you push it to others.</p></div>
+<div class="card compact rise" style="--i:4"><p class="k">LEADERBOARDS</p><h3>Bragging rights</h3><p class="d">Weekly top hitters, longest streaks and biggest multiples bring players back.</p></div>
+<div class="card compact rise" style="--i:5"><p class="k">THE TOKEN ITSELF</p><h3>Bet on the house</h3><p class="d">Holders speculate on how much the house earns, with real yield to anchor it.</p></div>
+</div>
+
+</section>
+<section data-slide id="legsfun" class="has-foot">
+<div class="head">
+<p class="eyebrow">CASE STUDY · LEGS.FUN</p>
+<h2>The model worked, then the token died.</h2>
+<p class="lede">legs.fun ran parlays on Robinhood Chain. It proved people want this, then collapsed within weeks.</p>
+</div>
+<div class="stats">
+<div class="stat rise" style="--i:0"><p class="num">3 Sep</p><p class="label">launched on Robinhood Chain</p></div>
+<div class="stat rise" style="--i:1"><p class="num">~$6.6M</p><p class="label">peak market cap, with $15M+ in daily token volume</p></div>
+<div class="stat rise" style="--i:2"><p class="num">~$310K</p><p class="label">estimated fees from one peak day: 2% token tax on ~$15.6M of volume</p></div>
+</div>
+<p class="source">Sources: Bitrue (Sep 2026: 2%/2% tax, ~$15.6M 24h volume), case-study list. Fee figure is an estimate; no public fee record found.</p>
+
+</section>
+<section data-slide id="improve" class="alt">
+<div class="head">
+<p class="eyebrow">HOW FATES IMPROVES ON LEGS.FUN</p>
+<h2>Same game. Fixed foundations.</h2>
+</div>
+<table class="data" style="font-size:26px">
+<tr class="headrow"><th style="width:22%"></th><th style="width:39%">legs.fun</th><th style="width:39%">Fates</th></tr>
+<tr><td>The house holds</td><td class="bad" style="color:#E8896A">Its own token, so a falling token shrinks the house</td><td style="color:#86C065">HYPE and USDC, so payouts don’t depend on the token</td></tr>
+<tr><td>Holders get</td><td>Buybacks only</td><td style="color:#86C065">Real yield: a share of house profit in HYPE/USDC, plus buybacks</td></tr>
+<tr><td>Payout risk</td><td>No published caps</td><td style="color:#86C065">Max payout per ticket, exposure caps per coin, reserve fund</td></tr>
+<tr><td>Manipulation</td><td>Not described</td><td style="color:#86C065">Liquidity floor per coin; settles on a multi-minute average</td></tr>
+<tr><td>Timing</td><td>Robinhood Chain, now crowded</td><td style="color:#86C065">Elysium, eight days old, no parlays yet</td></tr>
+<tr><td>Chains</td><td>One</td><td style="color:#86C065">Elysium first, built to add Robinhood Chain and Solana</td></tr>
+</table>
+
+</section>
+<section data-slide id="house">
+<div class="head">
+<p class="eyebrow">THE HOUSE</p>
+<h2>A vault of HYPE and USDC takes the other side of every ticket.</h2>
+<p class="lede">Losing tickets go into the vault. Winning tickets are paid from it. Over time the house edge makes it grow.</p>
+</div>
+<div class="cards three">
+<div class="card rise" style="--i:0"><p class="k">WHO FUNDS IT</p><h3>Stakers and LPs</h3><p class="d">Deposit HYPE or USDC, earn the house edge, like Hyperliquid’s HLP vault.</p></div>
+<div class="card rise" style="--i:1"><p class="k">PROTECTION</p><h3>Hard limits</h3><p class="d">Max payout per ticket and per coin. Ticket size scales with vault size.</p></div>
+<div class="card rise" style="--i:2"><p class="k">RESERVE</p><h3>A rainy-day fund</h3><p class="d">Part of treasury income covers bad weeks when players get lucky.</p></div>
+</div>
+
+</section>
+<section data-slide id="revenue" class="alt">
+<div class="head">
+<p class="eyebrow">REVENUE MODEL</p>
+<h2>The house edge: the oldest business model in gambling.</h2>
+</div>
+<div class="split">
+<div class="head rise" style="--i:0">
+<p class="lede">Every leg is priced slightly in the house’s favour. The edge compounds with each leg added, so parlays keep far more than single bets.</p>
+<table class="data">
+<tr class="headrow"><th style="width:50%">Legs on a ticket</th><th style="width:50%">House edge</th></tr>
+<tr><td>1 (a single bet)</td><td>~4.5%</td></tr>
+<tr><td>3</td><td>~13%</td></tr>
+<tr><td>6</td><td>~24%</td></tr>
+</table>
+<p class="mono">At standard -110 odds. Our planning figure: 15% average hold.</p>
+</div>
+<div class="head rise" style="--i:1">
+<p class="eyebrow">WHERE EACH $1 OF HOUSE PROFIT GOES</p>
+<div class="card" style="gap:18px">
+<div style="display:flex; justify-content:space-between; align-items:center"><h3>Stakers (paid in HYPE/USDC)</h3><p class="big">60%</p></div>
+<div style="display:flex; justify-content:space-between; align-items:center"><h3>Buyback &amp; burn</h3><p class="big hl">30%</p></div>
+<div style="display:flex; justify-content:space-between; align-items:center"><h3>Treasury &amp; reserve</h3><p class="big">10%</p></div>
+</div>
+<p class="mono">Example split; final numbers to set.</p>
+</div>
+</div>
+
+</section>
+<section data-slide id="scenarios" class="has-foot">
+<div class="head">
+<p class="eyebrow">THREE REVENUE SCENARIOS</p>
+<h2>From a humble start to a real share of the market.</h2>
+</div>
+<div class="cards three">
+<div class="card rise" style="--i:0"><p class="k">1 · HUMBLE</p><p class="big">$25K</p><p class="d">tickets a day</p><hr style="border-top:2px solid #2F3A30; width:100%"><p class="d">House profit: <b>$3.75K/day</b><br>≈ $112K a month</p><p class="d">Stakers $2.25K · Buyback $1.1K · Treasury $375 a day</p></div>
+<div class="card rise" style="--i:1"><p class="k">2 · REACHABLE</p><p class="big">$150K</p><p class="d">tickets a day</p><hr style="border-top:2px solid #2F3A30; width:100%"><p class="d">House profit: <b>$22.5K/day</b><br>≈ $675K a month</p><p class="d">Stakers $13.5K · Buyback $6.75K · Treasury $2.25K a day</p></div>
+<div class="card featured rise" style="--i:2"><p class="k">3 · 15–20% OF THE MARKET</p><p class="big">$1–1.3M</p><p class="d">tickets a day</p><hr style="border-top:2px solid #2F3A30; width:100%"><p class="d">House profit: <b>$150–195K/day</b><br>≈ $4.5–5.9M a month</p><p class="d">Stakers $90–117K · Buyback $45–59K a day</p></div>
+</div>
+<p class="source">All at 15% hold, 60/30/10 split, 30-day month. Market reference: Kalshi parlays averaged ~$6.6M/day wagered (Jan–Apr 2026). Scenarios, not forecasts.</p>
+
+</section>
+<section data-slide id="flywheel" class="alt">
+<div class="head">
+<p class="eyebrow">THE FLYWHEEL</p>
+<h2>More tickets make a bigger house, and a bigger house sells more tickets.</h2>
+</div>
+<div class="wheel">
+<div class="node rise" style="--i:0"><p class="k">1 · TICKETS</p><p class="t">Players bet on Elysium runners</p></div>
+<div class="arr-h shape-arrow-right" aria-hidden="true"></div>
+<div class="node rise" style="--i:1"><p class="k">2 · HOUSE PROFIT</p><p class="t">15–25% edge, paid in HYPE/USDC</p></div>
+<div class="arr-v shape-arrow-up" aria-hidden="true"></div>
+<p class="mid">speculation<br>= volume<br>= revenue</p>
+<div class="arr-v shape-arrow-down" aria-hidden="true"></div>
+<div class="node rise" style="--i:3"><p class="k">4 · BIGGER HOUSE</p><p class="t">Bigger vault allows bigger tickets and payouts</p></div>
+<div class="arr-h shape-arrow-left" aria-hidden="true"></div>
+<div class="node rise" style="--i:2"><p class="k">3 · YIELD + BUYBACKS</p><p class="t">Stakers earn real yield, so more stake into the house</p></div>
+</div>
+
+</section>
+<section data-slide id="token" class="accent">
+<div class="head">
+<p class="eyebrow">WHY HOLD THE TOKEN</p>
+<h2>Holding the token means owning the house.</h2>
+</div>
+<div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:48px">
+<div class="head rise" style="--i:0"><h3>Real yield</h3><p class="lede">Stakers get 60% of house profit, paid in HYPE or USDC.</p></div>
+<div class="head rise" style="--i:1"><h3>Buyback &amp; burn</h3><p class="lede">30% of profit buys the token and burns it.</p></div>
+<div class="head rise" style="--i:2"><h3>Better odds</h3><p class="lede">Holders get boosted payouts and access to bigger tickets.</p></div>
+<div class="head rise" style="--i:3"><h3>A valuation floor</h3><p class="lede">A token that pays real income is worth at least what people pay for that income.</p></div>
+</div>
+<p class="lede" style="font-weight:600">No token has a guaranteed floor. Real yield gives this one an anchor that legs.fun never had.</p>
+
+</section>
+<section data-slide id="users" class="alt">
+<div class="head">
+<p class="eyebrow">WHO USES IT</p>
+<h2>Three groups, three reasons to show up.</h2>
+</div>
+<div class="cards three">
+<div class="card rise" style="--i:0"><p class="k">PLAYERS</p><h3>Elysium trenchers</h3><p class="d">Already trading Elysium coins. They want a big multiple from a small stake, without leverage or liquidation.</p></div>
+<div class="card rise" style="--i:1"><p class="k">THE HOUSE</p><h3>HYPE holders</h3><p class="d">Want yield on idle HYPE. Staking into the house earns the edge on every ticket.</p></div>
+<div class="card rise" style="--i:2"><p class="k">LATER</p><h3>Other chains</h3><p class="d">Robinhood Chain and Solana players once the model is proven on Elysium.</p></div>
+</div>
+<p class="lede">Is it useful? As entertainment, yes. Robinhood’s prediction markets now earn more than its crypto trading. People clearly pay for this.</p>
+
+</section>
+<section data-slide id="competition">
+<div class="head">
+<p class="eyebrow">COMPETITION</p>
+<h2>Nobody runs parlays on Elysium yet.</h2>
+</div>
+<table class="data" style="font-size:26px">
+<tr class="headrow"><th style="width:30%">Product</th><th style="width:35%">What it does</th><th style="width:35%">Why it isn’t Fates</th></tr>
+<tr><td>legs.fun</td><td>Parlays on Robinhood Chain</td><td>Different chain; token collapsed</td></tr>
+<tr><td>Purrdict (Hyperliquid)</td><td>Parlays built from Hyperliquid prediction markets</td><td>Event outcomes on the main chain, not Elysium coins</td></tr>
+<tr><td>ParlayX ($1.25M pre-seed)</td><td>Parlays on sports, crypto prices and events</td><td>Chain not stated; not focused on memecoins</td></tr>
+<tr><td>Speculate (Elysium)</td><td>Prediction markets on Hyperliquid outcomes</td><td>Single outcomes, no parlays on coins</td></tr>
+<tr><td>Derive (Elysium)</td><td>Options</td><td>Complex, not built for trenchers</td></tr>
+<tr><td>Kalshi, Totalis</td><td>Parlays on events</td><td>Sports and events, not coin prices; not on Elysium</td></tr>
+<tr><td style="color:#86C065">Fates</td><td style="color:#86C065">Parlays on Elysium coins</td><td style="color:#86C065">First on the chain; house owned by stakers</td></tr>
+</table>
+<p class="mono">Checked Nov 2026. Parlay Legs and Parlay Trade exist but their sites couldn’t be verified.</p>
+
+</section>
+<section data-slide id="risks" class="alt">
+<div class="head">
+<p class="eyebrow">RISKS</p>
+<h2>What could go wrong, and the plan for each.</h2>
+</div>
+<table class="data" style="font-size:26px">
+<tr class="headrow"><th style="width:34%">Risk</th><th style="width:66%">Plan</th></tr>
+<tr><td>The house loses big (a whale hits)</td><td>Max payout per ticket, exposure caps per coin, reserve fund, ticket size tied to vault size</td></tr>
+<tr><td>Price manipulation on thin coins</td><td>Liquidity floor for every leg; settle on a multi-minute average, not one candle</td></tr>
+<tr><td>The legs.fun death spiral</td><td>The house holds HYPE and USDC, never the project’s own token</td></tr>
+<tr><td>Elysium hype fades</td><td>Built to run on several chains; add Robinhood Chain and Solana next</td></tr>
+<tr><td>A copycat gets there first</td><td>Ship fast; win the early players, stakers and leaderboard</td></tr>
+<tr><td>Legal: this is gambling</td><td>UK legal advice before launch; block restricted countries</td></tr>
+</table>
+
+</section>
+<section data-slide id="roadmap">
+<div class="head">
+<p class="eyebrow">BUILD ROADMAP</p>
+<h2>Live on Elysium in about six weeks.</h2>
+</div>
+<div class="cards">
+<div class="card rise" style="--i:0"><p class="k">WEEKS 1–3</p><h3>Build</h3><p class="d">Ticket and vault contracts, leg pricing, price feeds, payout caps.</p></div>
+<div class="card rise" style="--i:1"><p class="k">WEEKS 3–5</p><h3>Audit + test</h3><p class="d">Security audit (the vault holds real money). Closed beta with small caps.</p></div>
+<div class="card featured rise" style="--i:2"><p class="k">WEEK 6</p><h3>Launch</h3><p class="d">App live, token launch, staking opens, first leaderboard season.</p></div>
+<div class="card rise" style="--i:3"><p class="k">MONTHS 2–3</p><h3>Grow</h3><p class="d">Coin battles mode, Telegram bot, then Robinhood Chain and Solana.</p></div>
+</div>
+<p class="lede">Team: one smart-contract developer, one full-stack developer, and a founder on stakers, KOLs and the token.</p>
+
+</section>
+<section data-slide id="moat" class="alt">
+<div class="head">
+<p class="eyebrow">THE MOAT</p>
+<h2>Four advantages that grow with every ticket.</h2>
+</div>
+<div class="cards">
+<div class="card rise" style="--i:0"><p class="k">01</p><h3>First on Elysium</h3><p class="d">The first parlay app on a new chain becomes the default. Players and stakers settle in early.</p></div>
+<div class="card rise" style="--i:1"><p class="k">02</p><h3>Vault size</h3><p class="d">The biggest house offers the biggest tickets and payouts. Copycats start with a small vault and small limits.</p></div>
+<div class="card rise" style="--i:2"><p class="k">03</p><h3>Pricing data</h3><p class="d">Every ticket shows how each coin really moves. Odds get sharper, so the edge holds without scaring players off.</p></div>
+<div class="card rise" style="--i:3"><p class="k">04</p><h3>Owners who promote</h3><p class="d">Stakers earn from the house, so they bring players in. Winners post their tickets.</p></div>
+</div>
+<p class="mono">Early on the moat is thin. Speed is the defence.</p>
+
+</section>
+<section data-slide id="close" style="justify-content:space-between">
+<p class="eyebrow">IN ONE LINE</p>
+<div class="head">
+<h2 class="rise" style="--i:0">The first parlay app on Elysium, with a house that holders actually own.</h2>
+<p class="lede rise" style="--i:1">Proven demand, a chain with no parlays, a 15–25% house edge, and real yield for stakers. Everything legs.fun proved, without what killed it.</p>
+</div>
+<div class="head rise" style="--i:2">
+<h1>Fates</h1>
+<p class="mono">Stack the legs. Spin your fate.&nbsp;</p>
+</div>
+
+</section>
+</div></div>
+<div class="nav"><span id="counter"></span><button id="prev" aria-label="Previous slide">←</button><button id="next" aria-label="Next slide">→</button></div>
+<div class="progress"><div class="f" id="bar"></div></div>
+<script>
+const stage = document.getElementById('stage');
+const slides = Array.from(stage.querySelectorAll(':scope > section'));
+const total = slides.length;
+let cur = 0;
+function fit() {
+  const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+  stage.style.transform = 'scale(' + s + ')';
+}
+function pad(n) { return n < 10 ? '0' + n : '' + n; }
+function show(i) {
+  cur = Math.max(0, Math.min(total - 1, i));
+  slides.forEach((s, k) => s.classList.toggle('active', k === cur));
+  document.getElementById('counter').textContent = pad(cur + 1) + ' / ' + pad(total);
+  document.getElementById('bar').style.width = ((cur + 1) / total * 100) + '%';
+  history.replaceState(null, '', '#' + (cur + 1));
+}
+document.getElementById('next').onclick = () => show(cur + 1);
+document.getElementById('prev').onclick = () => show(cur - 1);
+window.addEventListener('keydown', e => {
+  if (['ArrowRight', ' ', 'PageDown'].includes(e.key)) { e.preventDefault(); show(cur + 1); }
+  if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(cur - 1); }
+  if (e.key === 'Home') show(0);
+  if (e.key === 'End') show(total - 1);
+});
+let tx = null;
+window.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+window.addEventListener('touchend', e => {
+  if (tx === null) return;
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1));
+  tx = null;
+});
+let lock = false;
+window.addEventListener('wheel', e => {
+  if (lock || Math.abs(e.deltaY) < 30) return;
+  lock = true; show(cur + (e.deltaY > 0 ? 1 : -1)); setTimeout(() => lock = false, 650);
+}, { passive: true });
+window.addEventListener('resize', fit);
+fit();
+const start = parseInt(location.hash.slice(1), 10);
+show(start >= 1 && start <= total ? start - 1 : 0);
+</script>
+</body>
+</html>
